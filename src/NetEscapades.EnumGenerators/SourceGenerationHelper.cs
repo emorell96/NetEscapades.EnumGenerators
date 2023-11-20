@@ -126,6 +126,20 @@ namespace ").Append(enumToGenerate.Namespace).Append(@"
         /// This is consistent with the behaviour of <see cref=""global::System.Enum.HasFlag"" /></remarks>
         public static bool HasFlagFast(this ").Append(fullyQualifiedName).Append(@" value, ").Append(fullyQualifiedName).Append(@" flag)
             => flag == 0 ? true : (value & flag) == flag;");
+
+            sb.Append(@"
+
+        /// <summary>
+        /// Determines whether at least one or more bit fields are set in the current instance.
+        /// Equivalent to calling <code>value & flag != 0</code> on <paramref name=""value""/>.
+        /// </summary>
+        /// <param name=""value"">The value of the instance to investigate</param>
+        /// <param name=""flag"">The flag to check for</param>
+        /// <returns><c>true</c> if at least one field from the flag is also set in the current instance; otherwise <c>false</c>.</returns>
+        /// <remarks>If the underlying value of <paramref name=""flag""/> is zero, the method returns true.
+        /// This is consistent with the behaviour of <see cref=""global::System.Enum.HasFlag"" /></remarks>
+        public static bool HasAtLeastOneFlag(this ").Append(fullyQualifiedName).Append(@" value, ").Append(fullyQualifiedName).Append(@" flag)
+            => flag == 0 ? true : (value & flag) > 0;");
         }
 
         sb.Append(@"
