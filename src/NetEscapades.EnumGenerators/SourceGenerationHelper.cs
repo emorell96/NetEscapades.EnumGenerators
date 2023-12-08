@@ -140,6 +140,27 @@ namespace ").Append(enumToGenerate.Namespace).Append(@"
         /// This is consistent with the behaviour of <see cref=""global::System.Enum.HasFlag"" /></remarks>
         public static bool HasAtLeastOneFlag(this ").Append(fullyQualifiedName).Append(@" value, ").Append(fullyQualifiedName).Append(@" flag)
             => flag == 0 ? true : (value & flag) > 0;");
+
+            sb.Append(@"
+            
+        /// <summary>
+        /// Returns a list containing all flags contained in the activeFlag parameter.
+        /// </summary>
+            ");
+            sb.Append(@"
+            public static List<").Append(fullyQualifiedName).Append(@"> GetAllFlags(this ").Append(fullyQualifiedName).Append(@" activeFlag)
+            {
+                var list = new List<").Append(fullyQualifiedName).Append(@">();
+                foreach(var flag in ").Append($"global::{enumToGenerate.Namespace}.{enumToGenerate.Name}").Append(@".GetValues())
+                {
+                    if (activeFlag.HasFlagFast(flag))
+                    {
+                        list.Add(flag);
+                    }
+                }
+                return list;
+            }
+            ");
         }
 
         sb.Append(@"
